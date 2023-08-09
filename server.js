@@ -1,3 +1,3 @@
-const httpServer = require("./scr/app");
+const httpServer = require('./app');
 
 httpServer.listen(3001);
