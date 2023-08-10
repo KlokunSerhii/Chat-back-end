@@ -3,7 +3,11 @@ const express = require('express')
 const app = express();
 const server = require('http').Server(app);
 const useSocket = require('socket.io');
-const io = useSocket(server)
+const io = useSocket(server,{
+  cors: {
+    origin: "*"
+  }
+})
 
 require('dotenv').config();
 
