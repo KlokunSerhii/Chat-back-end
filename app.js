@@ -1,5 +1,5 @@
 const { Server } = require('socket.io');
-const { createServer } = require('https');
+const { createServer } = require('http');
 
 require('dotenv').config();
 
