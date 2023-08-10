@@ -8,12 +8,12 @@ const io = useSocket(server,{
     origin: "*"
   }
 })
-
 require('dotenv').config();
+
 
 const { DB_HOST, PORT } = process.env;
 
-app.get('/chat',(req, res)=>{
+app.get('/',(req, res)=>{
 res.json("HI")
 })
 
