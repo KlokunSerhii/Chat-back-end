@@ -69,8 +69,17 @@ const logout = async (req, res) => {
   res.status(204).json('No Content');
 };
 
+const getCurrent = async (req, res) => {
+  const { email, subscription } = req.user;
+  if (!email) {
+    throw HttpError(401);
+  }
+  res.json({ email, subscription });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
+  getCurrent: ctrlWrapper(getCurrent),
 };
