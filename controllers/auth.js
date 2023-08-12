@@ -7,7 +7,7 @@ const { User } = require('../models/user');
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
   const user = await User.findOne({ email });
 
   if (user) {
@@ -61,6 +61,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   const { _id } = req.user;
+
   if (!_id) {
     throw HttpError(401);
   }
@@ -70,11 +71,12 @@ const logout = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, subscription } = req.user;
+  const { email } = req.user;
+  console.log(email);
   if (!email) {
     throw HttpError(401);
   }
-  res.json({ email, subscription });
+  res.json({ email });
 };
 
 module.exports = {
