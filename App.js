@@ -2,6 +2,7 @@ const logger = require('morgan');
 const useSocket = require('socket.io');
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
@@ -17,6 +18,7 @@ const formatsLogger =
 
 app.use(logger(formatsLogger));
 app.use(express.json());
+app.use(cors());
 
 app.use('/chat/users', authRouter);
 
