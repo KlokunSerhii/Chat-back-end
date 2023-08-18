@@ -6,7 +6,6 @@ const cors = require('cors');
 const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
-const { addUser } = require('./users');
 
 const io = useSocket(server, {
   cors: {
@@ -34,28 +33,9 @@ app.use((err, req, res, next) => {
 
 io.on('connection', socket => {
 
-  socket.on('join', ({name, room}) =>{
-
-    socket.join(room);
-
-    const {user} = addUser({name, room});
-
-    socket.emit('message', {
-      data:{user: {name:"Admin"}, message:`Hi ${user.name}`}
-    });
-
-      socket.broadcast.to(user.room).emit('message', {
-        data:{user: {name:"Admin"}, message:` ${user.name} has joined`}
-      });
-
-  });
-
   socket.on('chat-message', message => {
     socket.broadcast.emit('chat-message', message);
-
-
   });
-
 
   io.on('disconnect', ()=>
   console.log("Disconnect"))
