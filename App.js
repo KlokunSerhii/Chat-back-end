@@ -6,6 +6,7 @@ const cors = require('cors');
 const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
+const { createSocket } = require('dgram');
 
 const io = useSocket(server, {
   cors: {
@@ -32,9 +33,23 @@ app.use((err, req, res, next) => {
 });
 
 io.on('connection', socket => {
+
+  socket.on('join', ({name, room}) =>{
+    socket.join(room);
+    
+    socket.emit('message', {
+      data:{user: {name:"Admin"}, message:`Hi ${name}`}})
+  });
+
   socket.on('chat-message', message => {
     socket.broadcast.emit('chat-message', message);
   });
+
+
+  io.on('disconnect', ()=>
+  console.log("Disconnect"))
+
+
 });
 
 module.exports = server;
