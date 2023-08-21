@@ -36,9 +36,9 @@ io.on('connection', socket => {
   socket.on('chat-message', message => {
     socket.broadcast.emit('chat-message', message);
   });
-  
-  socket.on('chat-message', name => {
-    socket.broadcast.emit('chat-message', name);
+
+  socket.on('chat-user', name => {
+    socket.broadcast.emit('chat-user', name);
   });
 
   io.on('disconnect', ()=>
