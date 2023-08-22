@@ -21,10 +21,21 @@ const register = async (req, res) => {
     avatarURL,
     password: hashPassword,
   });
+  const payload = {
+    id: newUser._id,
+  };
 
+  const token = jwt.sign(payload, SECRET_KEY, {
+    expiresIn: '24h',
+  });
+  await User.findByIdAndUpdate(newUser._id, { token });
   res.status(201).json({
-    name: newUser.name,
-    email: newUser.email,
+    user: {
+      name: newUser.name,
+      email: newUser.email,
+      avatarURL: newUser.avatarURL,
+    },
+    token,
   });
 };
 
@@ -45,6 +56,7 @@ const login = async (req, res) => {
   if (!passwordCompare) {
     throw HttpError(401, 'Email or password invalid');
   }
+
   const payload = {
     id: user._id,
   };
@@ -71,12 +83,17 @@ const logout = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email } = req.user;
-  console.log(email);
+  const { email, name, avatarURL } = req.user;
   if (!email) {
     throw HttpError(401);
   }
-  res.json({ email });
+  res.json({
+    user: {
+      name,
+      email,
+      avatarURL,
+    },
+  });
 };
 
 module.exports = {
