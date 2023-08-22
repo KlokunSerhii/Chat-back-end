@@ -11,6 +11,7 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: [true, 'Set name for user'],
+      default: 'user',
     },
     password: {
       type: String,
