@@ -7,7 +7,7 @@ const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
 const { addUser, findUser } = require('./users');
-const imgDefault = require('./img')
+const imgDefault = require('./img/bot.jpg')
 const io = useSocket(server, {
   cors: {
     origin: '*',
