@@ -7,6 +7,7 @@ const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
 const { addUser, findUser } = require('./users');
+const imgDefault = require('./img/bot.jpg')
 
 const io = useSocket(server, {
   cors: {
@@ -41,7 +42,7 @@ io.on('connection', socket => {
 
     socket.emit('message', {
       data: {
-        user: { name: 'Bot', avatar:'./img/bot.jpg' },
+        user: { name: 'Bot', avatar:`${imgDefault}` },
         message: `Hello, ${user.name}`,
         
       },
@@ -49,7 +50,7 @@ io.on('connection', socket => {
 
     socket.broadcast.to(user.room).emit('message', {
       data: {
-        user: { name: 'Bot', avatar:'./img/bot.jpg' },
+        user: { name: 'Bot', avatar:`${imgDefault}` },
         message: `${user.name} has join`,
       },
     });
