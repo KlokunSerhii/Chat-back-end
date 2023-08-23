@@ -41,8 +41,8 @@ io.on('connection', socket => {
 
     socket.emit('message', {
       data: {
-        user,
-        message,
+        user: { name: '' },
+        message: `Hello, ${user.name}`,
       },
     });
 
