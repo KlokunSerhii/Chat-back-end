@@ -41,14 +41,14 @@ io.on('connection', socket => {
 
     socket.emit('message', {
       data: {
-        user: { name: 'Admin' },
-        message: `Hi ${user.name}`,
+        user: { name: '' },
+        message: `Hello, ${user.name}`,
       },
     });
 
     socket.broadcast.to(user.room).emit('message', {
       data: {
-        user: { name: 'Admin' },
+        user: { name: '' },
         message: `${user.name} has join`,
       },
     });
