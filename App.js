@@ -34,7 +34,7 @@ app.use((err, req, res, next) => {
 });
 
 io.on('connection', socket => {
-  socket.on('join', ({ name, room }) => {
+  socket.on('join', ({ name, room, avatar }) => {
     socket.join(room);
 
     const { user } = addUser({ name, room, avatar });
@@ -53,12 +53,13 @@ io.on('connection', socket => {
       },
     });
   });
+  
   socket.on('send', ({ message, params }) => {
     const user = findUser(params);
 
     if (user) {
       io.to(user.room).emit('message', {
-        data: { user, message, avatar },
+        data: { user, message },
       });
     }
   });
