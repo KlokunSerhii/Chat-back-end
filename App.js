@@ -58,7 +58,7 @@ io.on('connection', socket => {
 
     if (user) {
       io.to(user.room).emit('message', {
-        data: { user, message, avarat },
+        data: { user, message, avatar },
       });
     }
   });
