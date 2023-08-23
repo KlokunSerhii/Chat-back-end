@@ -37,7 +37,7 @@ io.on('connection', socket => {
   socket.on('join', ({ name, room }) => {
     socket.join(room);
 
-    const { user } = addUser({ name, room });
+    const { user } = addUser({ name, room, avatar });
 
     socket.emit('message', {
       data: {
@@ -58,7 +58,7 @@ io.on('connection', socket => {
 
     if (user) {
       io.to(user.room).emit('message', {
-        data: { user, message },
+        data: { user, message, avarat },
       });
     }
   });
