@@ -4,7 +4,7 @@ let users = [];
 const findUser = user => {
   const userName = trimString(user.name);
   const userRoom = trimString(user.room);
-  const userAvatar = trimString(user.avatar)
+  const userAvatar = trimString(user.avatar);
   return users.find(
     user =>
       trimString(user.name) === userName &&
@@ -20,4 +20,7 @@ const addUser = user => {
   return { isExist: !!isExist, user: currentUser };
 };
 
-module.exports = { addUser, findUser };
+const getRoomsUsers = room =>
+  users.filter(user => user.room === room);
+
+module.exports = { addUser, findUser, getRoomsUsers };

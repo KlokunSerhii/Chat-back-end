@@ -6,7 +6,11 @@ const cors = require('cors');
 const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
-const { addUser, findUser } = require('./users');
+const {
+  addUser,
+  findUser,
+  getRoomsUsers,
+} = require('./users');
 
 const io = useSocket(server, {
   cors: {
@@ -41,20 +45,26 @@ io.on('connection', socket => {
 
     socket.emit('message', {
       data: {
-        user: { name: 'Bot', avatar:'' },
+        user: { name: 'Bot', avatar: '' },
         message: `Hello, ${user.name}`,
-        
       },
     });
 
     socket.broadcast.to(user.room).emit('message', {
       data: {
-        user: { name: 'Bot', avatar:'' },
+        user: { name: 'Bot', avatar: '' },
         message: `${user.name} has join`,
       },
     });
+    io.to(user.room).emit('joinRoom', {
+      data: {
+        room: user.room,
+        users: getRoomsUsers(user.room),
+      },
+    });
+    getRoomsUsers;
   });
-  
+
   socket.on('send', ({ message, params }) => {
     const user = findUser(params);
 
