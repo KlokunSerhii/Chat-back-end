@@ -23,7 +23,7 @@ router.post('/logout', authenticate, ctrl.logout);
 
 router.get('/current', authenticate, ctrl.getCurrent);
 
-router.post(
+router.patch(
   '/avatars',
   authenticate,
   upload.single('avatar'),
