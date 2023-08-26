@@ -1,9 +1,6 @@
-// const gravatar = require('gravatar');
+const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {
-  AvatarGenerator,
-} = require('random-avatar-generator');
 
 const { HttpError, ctrlWrapper } = require('../helpers');
 const { User } = require('../models/user');
@@ -18,9 +15,7 @@ const register = async (req, res) => {
     throw HttpError(409, 'Email is already in use');
   }
   const hashPassword = await bcrypt.hash(password, 10);
-  // const avatarURL = gravatar.url(email);
-  const avatarURL =
-    generator.generateRandomAvatar('avatar');
+  const avatarURL = gravatar.url(email);
 
   const newUser = await User.create({
     ...req.body,
