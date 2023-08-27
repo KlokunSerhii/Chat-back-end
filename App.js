@@ -10,6 +10,7 @@ const {
   addUser,
   findUser,
   getRoomsUsers,
+  removeUser,
 } = require('./users');
 
 const io = useSocket(server, {
@@ -56,7 +57,7 @@ io.on('connection', socket => {
         message: `${user.name} has join`,
       },
     });
-    io.to(user.room).emit('joinRoom', {
+    io.to(user.room).emit('room', {
       data: {
         room: user.room,
         users: getRoomsUsers(user.room),
@@ -75,16 +76,25 @@ io.on('connection', socket => {
     }
   });
 
-  socket.on('disconnect', ({ name, room }) => {
-    socket.disconnect(room);
-
-    socket.emit('message', {
-      data: {
-        user: { name: 'Bot', avatar: '' },
-        message: `${name} has left the chat`,
-      },
-    });
+  socket.on('leftRoom', ({ params }) => {
+    const user = removeUser(params);
+    if (user) {
+      io.to(user.room).emit('message', {
+        data: {
+          user: { name: 'Bot', avatar: '' },
+          message: `${user.name} has left chat`,
+        },
+      });
+      io.to(user.room).emit('room', {
+        data: {
+          room: user.room,
+          users: getRoomsUsers(user.room),
+        },
+      });
+    }
   });
+
+  socket.on('disconnect', () => console.log('Disconnect'));
 });
 
 module.exports = server;
