@@ -78,15 +78,18 @@ io.on('connection', socket => {
     const user = removeUser(params);
 
     if (user) {
-      io.to(user.room).emit('message', {
+      socket.broadcast.to(user.room).emit('message', {
         data: {
           user: { name: 'Bot', avatar: '' },
           message: `${user.name} has left chat`,
         },
       });
 
-      io.to(user.room).emit('room', {
-        data: { users: getRoomsUsers(user.room) },
+      io.broadcast.to(user.room).emit('room', {
+        data: {
+          room: user.room,
+          users: getRoomsUsers(user.room),
+        },
       });
     }
   });
