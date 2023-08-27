@@ -22,10 +22,15 @@ const io = useSocket(server, {
 
 const formatsLogger =
   app.get('env') === 'development' ? 'dev' : 'short';
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 
 app.use(logger(formatsLogger));
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/chat/users', authRouter);
 
@@ -78,6 +83,7 @@ io.on('connection', socket => {
 
   socket.on('leftRoom', ({ params }) => {
     const user = removeUser(params);
+
     if (user) {
       io.to(user.room).emit('message', {
         data: {
@@ -85,6 +91,7 @@ io.on('connection', socket => {
           message: `${user.name} has left chat`,
         },
       });
+
       io.to(user.room).emit('room', {
         data: {
           room: user.room,
