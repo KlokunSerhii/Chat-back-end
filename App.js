@@ -85,7 +85,7 @@ io.on('connection', socket => {
         },
       });
 
-      io.broadcast.to(user.room).emit('room', {
+      io.to(user.room).emit('room', {
         data: {
           room: user.room,
           users: getRoomsUsers(user.room),
