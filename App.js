@@ -75,7 +75,6 @@ io.on('connection', socket => {
         users: getRoomsUsers(user.room),
       },
     });
-    getRoomsUsers;
   });
 
   socket.on('send', ({ message, params }) => {
@@ -100,13 +99,9 @@ io.on('connection', socket => {
       });
 
       io.to(user.room).emit('room', {
-        data: {
-          room: user.room,
-          users: getRoomsUsers(user.room),
-        },
+        data: { users: getRoomsUsers(user.room) },
       });
     }
-    getRoomsUsers;
   });
 
   socket.on('disconnect', () => console.log('Disconnect'));
