@@ -16,7 +16,7 @@ const {
 const io = useSocket(server, {
   cors: {
     origin: '*',
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH'],
   },
 });
 
@@ -25,7 +25,7 @@ const formatsLogger =
 
 app.use(logger(formatsLogger));
 app.use(express.json());
-app.use(cors());
+app.use(cors('*'));
 
 app.use('/chat/users', authRouter);
 
