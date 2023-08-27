@@ -75,7 +75,16 @@ io.on('connection', socket => {
     }
   });
 
-  socket.on('disconnect', () => console.log('Disconnect'));
+  socket.on('disconnect', ({ name, room }) => {
+    socket.disconnect(room);
+
+    socket.emit('message', {
+      data: {
+        user: { name: 'Bot', avatar: '' },
+        message: `${name} has left the chat`,
+      },
+    });
+  });
 });
 
 module.exports = server;
