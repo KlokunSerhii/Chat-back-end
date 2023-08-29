@@ -1,19 +1,30 @@
 const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../helpers');
 
-
 const messageSchema = new Schema(
-    {
+  {
     message: {
-        type: String,
-      },
+      type: String,
+      required: true,
     },
-  );
-  
-  messageSchema.post('save', handleMongooseError);
-  
+    roomId: {
+      type: String,
+      required: true,
+    },
+    user: {
+      type: Object,
+      required: true,
+    },
+    owner: {
+      type: String,
+      required: true,
+    },
+  },
+  { versionKey: false, timestamps: true }
+);
 
-  const Message = model('message', messageSchema);
-  
-  module.exports = { Message };
-  
+messageSchema.post('save', handleMongooseError);
+
+const Message = model('message', messageSchema);
+
+module.exports = { Message };

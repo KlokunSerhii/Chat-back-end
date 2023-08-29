@@ -6,12 +6,9 @@ const cors = require('cors');
 const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
-const {
-  addUser,
-  findUser,
-  getRoomsUsers,
-  removeUser,
-} = require('./users');
+const messageRouter = require('./routes/api/message');
+
+const { addUser, findUser, getRoomsUsers, removeUser } = require('./users');
 
 const io = useSocket(server, {
   cors: {
@@ -20,13 +17,13 @@ const io = useSocket(server, {
   },
 });
 
-const formatsLogger =
-  app.get('env') === 'development' ? 'dev' : 'short';
+const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 app.use(logger(formatsLogger));
 app.use(express.json());
 app.use(cors());
 app.use('/chat/users', authRouter);
+app.use('/chat/messages', messageRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });

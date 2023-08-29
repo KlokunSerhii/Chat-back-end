@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { authenticate } = require('../../middelwares');
+const ctrl = require('../../controllers/message');
 
-const ctrl = require('../../controllers/auth');
+router.get('/chat/:id', authenticate, ctrl.getAllMessage);
+router.post('/chat/:id', authenticate, ctrl.addMessage);
 
-router.get('/chat/:id', ctrl.getById)
-router.post('/chat/:id', ctrl.addMessage)
+module.exports = router;

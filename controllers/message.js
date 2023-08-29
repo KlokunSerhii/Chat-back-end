@@ -1,16 +1,31 @@
 const { HttpError, ctrlWrapper } = require('../helpers');
-const { Message } = require('../models/user');
+const { Message } = require('../models/message');
 
+const getAllMessage = async (req, res) => {
+  const { id } = req.params;
+  const { _id: owner } = req.user;
 
-const getById = async (req, res) => {
-    console.log(req.params)
-    // const { id } = req.params;
-   }
+  const result = await Message.find(
+    { roomId: id, owner },
+    '-createdAt -updatedAt'
+  );
 
-const addMessage = async (req, res) =>{     }
+  if (!result) {
+    throw HttpError(404);
+  }
+  res.json(result);
+};
 
+const addMessage = async (req, res) => {
+  const { _id: owner } = req.user;
+  const result = await Message.create({
+    ...req.body,
+    owner,
+  });
+  res.status(201).json(result);
+};
 
 module.exports = {
-    getById: ctrlWrapper(getById),
-    addMessage: ctrlWrapper(addMessage)
-}
+  getAllMessage: ctrlWrapper(getAllMessage),
+  addMessage: ctrlWrapper(addMessage),
+};
