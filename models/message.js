@@ -17,7 +17,6 @@ const messageSchema = new Schema(
     },
     owner: {
       type: String,
-      required: true,
     },
   },
   { versionKey: false, timestamps: true }
