@@ -19,6 +19,10 @@ const messageSchema = new Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      default: "",
+    },
   },
   { versionKey: false, timestamps: true }
 );
