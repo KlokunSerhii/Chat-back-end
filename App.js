@@ -40,19 +40,19 @@ io.on('connection', socket => {
 
     const { user } = addUser({ name, room, avatar });
 
-    socket.emit('message', {
-      data: {
-        user: { name: 'Bot', avatar: '' },
-        message: `Hello, ${user.name}`,
-      },
-    });
+    // socket.emit('message', {
+    //   data: {
+    //     user: { name: 'Bot', avatar: '' },
+    //     message: `Hello, ${user.name}`,
+    //   },
+    // });
 
-    socket.broadcast.to(user.room).emit('message', {
-      data: {
-        user: { name: 'Bot', avatar: '' },
-        message: `${user.name} has join`,
-      },
-    });
+    // socket.broadcast.to(user.room).emit('message', {
+    //   data: {
+    //     user: { name: 'Bot', avatar: '' },
+    //     message: `${user.name} has join`,
+    //   },
+    // });
     io.to(user.room).emit('room', {
       data: {
         room: user.room,
@@ -75,12 +75,12 @@ io.on('connection', socket => {
     const user = removeUser(params);
 
     if (user) {
-      socket.broadcast.to(user.room).emit('message', {
-        data: {
-          user: { name: 'Bot', avatar: '' },
-          message: `${user.name} has left chat`,
-        },
-      });
+      // socket.broadcast.to(user.room).emit('message', {
+      //   data: {
+      //     user: { name: 'Bot', avatar: '' },
+      //     message: `${user.name} has left chat`,
+      //   },
+      // });
 
       io.to(user.room).emit('room', {
         data: {
