@@ -27,15 +27,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/chat/users', authRouter);
 app.use('/chat/messages', messageRouter);
-//=============================================
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-  next();
-});
-//=============================================
+
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
 });
