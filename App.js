@@ -12,12 +12,8 @@ const { addUser, findUser, getRoomsUsers, removeUser } = require('./users');
 
 const io = useSocket(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-    credentials: true,
+    origin: '*'
   },
-  allowEIO3: true,
-
 });
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
@@ -25,6 +21,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));
 app.use(express.json());
 app.use(cors());
+
 app.use('/chat/users', authRouter);
 app.use('/chat/messages', messageRouter);
 
@@ -43,19 +40,6 @@ io.on('connection', socket => {
 
     const { user } = addUser({ name, room, avatar });
 
-    // socket.emit('message', {
-    //   data: {
-    //     user: { name: 'Bot', avatar: '' },
-    //     message: `Hello, ${user.name}`,
-    //   },
-    // });
-
-    // socket.broadcast.to(user.room).emit('message', {
-    //   data: {
-    //     user: { name: 'Bot', avatar: '' },
-    //     message: `${user.name} has join`,
-    //   },
-    // });
     io.to(user.room).emit('room', {
       data: {
         room: user.room,
@@ -78,13 +62,6 @@ io.on('connection', socket => {
     const user = removeUser(params);
 
     if (user) {
-      // socket.broadcast.to(user.room).emit('message', {
-      //   data: {
-      //     user: { name: 'Bot', avatar: '' },
-      //     message: `${user.name} has left chat`,
-      //   },
-      // });
-
       io.to(user.room).emit('room', {
         data: {
           room: user.room,
