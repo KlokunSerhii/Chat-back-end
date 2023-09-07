@@ -1,9 +1,6 @@
 const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const jimp = require('jimp');
-const path = require('path');
-const fs = require('fs/promises');
 const cloudinary = require('cloudinary').v2;
 
 const { HttpError, ctrlWrapper } = require('../helpers');
@@ -103,10 +100,12 @@ const getCurrent = async (req, res) => {
 
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
+
   if (!_id) {
     throw HttpError(401);
   }
   const { path: tempDir } = req.file;
+
   const options = {
     use_filename: true,
     unique_filename: false,
