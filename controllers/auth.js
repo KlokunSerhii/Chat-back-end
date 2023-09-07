@@ -8,13 +8,12 @@ const cloudinary = require('cloudinary').v2;
 
 const { HttpError, ctrlWrapper } = require('../helpers');
 const { User } = require('../models/user');
-const { SECRET_KEY } = process.env;
-const avatarsDir = path.join(__dirname, '../', 'public', 'avatars');
+const { SECRET_KEY, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
 
 cloudinary.config({
   cloud_name: 'dsmdvs2lx',
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_API_SECRET,
   secure: true,
 });
 
@@ -104,35 +103,24 @@ const getCurrent = async (req, res) => {
 
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
-
   if (!_id) {
     throw HttpError(401);
   }
-  const { path: tempDir, originalname } = req.file;
-  // jimp
-  //   .read(tempDir)
-  //   .then(avatar => {
-  //     return avatar.cover(250, 250).write(resultUpload);
-  //   })
-  //   .catch(error => {
-  //     console.error(error);
-  //   });
+  const { path: tempDir } = req.file;
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
 
-
-  console.log(tempDir);
-  console.log(originalname);
-  
-  const avatarURL = await cloudinary.uploader.upload(originalname);
-  console.log(avatarURL);
+  try {
+    const result = await cloudinary.uploader.upload(tempDir, options);
+    const avatarURL = result.secure_url;
+    return avatarURL;
+  } catch (error) {
+    console.error(error);
+  }
   await User.findByIdAndUpdate(_id, { avatarURL });
-
-
-  // const userAvatar = `${_id}_${originalname}`;
-  // const resultUpload = path.join(avatarsDir, userAvatar);
-  // await fs.rename(tempDir, resultUpload);
-  // const avatarURL = path.join('avatars', userAvatar);
-  // await User.findByIdAndUpdate(_id, { avatarURL });
-
   res.json({
     avatarURL,
   });
