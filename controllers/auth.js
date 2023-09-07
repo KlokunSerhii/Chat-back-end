@@ -4,11 +4,19 @@ const bcrypt = require('bcrypt');
 const jimp = require('jimp');
 const path = require('path');
 const fs = require('fs/promises');
+const cloudinary = require('cloudinary').v2;
 
 const { HttpError, ctrlWrapper } = require('../helpers');
 const { User } = require('../models/user');
 const { SECRET_KEY } = process.env;
 const avatarsDir = path.join(__dirname, '../', 'public', 'avatars');
+
+cloudinary.config({
+  cloud_name: 'dsmdvs2lx',
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -101,19 +109,29 @@ const updateAvatar = async (req, res) => {
     throw HttpError(401);
   }
   const { path: tempDir, originalname } = req.file;
-  jimp
-    .read(tempDir)
-    .then(avatar => {
-      return avatar.cover(250, 250).write(resultUpload);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  const userAvatar = `${_id}_${originalname}`;
-  const resultUpload = path.join(avatarsDir, userAvatar);
-  await fs.rename(tempDir, resultUpload);
-  const avatarURL = path.join('avatars', userAvatar);
+  // jimp
+  //   .read(tempDir)
+  //   .then(avatar => {
+  //     return avatar.cover(250, 250).write(resultUpload);
+  //   })
+  //   .catch(error => {
+  //     console.error(error);
+  //   });
+
+
+  console.log(tempDir);
+  console.log(originalname);
+  
+  const avatarURL = await cloudinary.uploader.upload(originalname);
+  console.log(avatarURL);
   await User.findByIdAndUpdate(_id, { avatarURL });
+
+
+  // const userAvatar = `${_id}_${originalname}`;
+  // const resultUpload = path.join(avatarsDir, userAvatar);
+  // await fs.rename(tempDir, resultUpload);
+  // const avatarURL = path.join('avatars', userAvatar);
+  // await User.findByIdAndUpdate(_id, { avatarURL });
 
   res.json({
     avatarURL,
