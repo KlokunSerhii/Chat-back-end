@@ -25,12 +25,13 @@ const getRoomsUsers = room =>
 const removeUser = user => {
   const found = findUser(user);
 
-
+  
   if (found) {
     users = users.filter(
-      ({ room, name }) =>
+      ({ room, name, avatar }) =>
         room === found.room && 
-        name !== found.name
+        name !== found.name && 
+        avatar !== found.avatar
     );
   }
   return found;
