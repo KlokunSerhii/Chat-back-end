@@ -35,10 +35,10 @@ app.use((err, req, res, next) => {
 });
 
 io.on('connection', socket => {
-  socket.on('join', ({ name, room, avatar }) => {
+  socket.on('join', ({ name, room }) => {
     socket.join(room);
 
-    const { user } = addUser({ name, room, avatar });
+    const { user } = addUser({ name, room });
 
     io.to(user.room).emit('room', {
       data: {
