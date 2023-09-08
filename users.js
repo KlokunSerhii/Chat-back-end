@@ -29,7 +29,7 @@ const removeUser = user => {
       ({ room, name, avatar }) =>
         room === found.room && 
         name !== found.name && 
-        avatar === found.avatar
+        avatar !== found.avatar
     );
   }
   return found;
