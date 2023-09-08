@@ -6,7 +6,7 @@ const findUser = user => {
   return users.find(
     user =>
       user.name === userName &&
-      user.room === userRoom &&
+      user.room === userRoom
   );
 };
 
