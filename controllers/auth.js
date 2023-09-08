@@ -118,7 +118,7 @@ const updateAvatar = async (req, res) => {
 
     await User.findByIdAndUpdate(_id, { avatarURL });
 
-    // return avatarURL;
+    return avatarURL;
   } catch (error) {
     console.error(error);
   }
