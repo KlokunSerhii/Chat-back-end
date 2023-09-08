@@ -1,15 +1,12 @@
-const { trimString } = require('./helpers');
 let users = [];
 
 const findUser = user => {
-  const userName = trimString(user.name);
-  const userRoom = trimString(user.room);
-  const userAvatar = trimString(user.avatar);
+  const userName = user.name;
+  const userRoom = user.room;
   return users.find(
     user =>
-      trimString(user.name) === userName &&
-      trimString(user.room) === userRoom &&
-      userAvatar
+      user.name === userName &&
+      user.room === userRoom &&
   );
 };
 
