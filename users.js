@@ -3,10 +3,12 @@ let users = [];
 const findUser = user => {
   const userName = user.name;
   const userRoom = user.room;
+  const userAvatar = user.avatar;
   return users.find(
     user =>
       user.name === userName &&
-      user.room === userRoom
+      user.room === userRoom &&
+      user.avatar === userAvatar
   );
 };
 
