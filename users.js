@@ -26,8 +26,10 @@ const removeUser = user => {
   const found = findUser(user);
   if (found) {
     users = users.filter(
-      ({ room, name }) =>
-        room === found.room && name !== found.name
+      ({ room, name, avatar }) =>
+        room === found.room && 
+        name !== found.name && 
+        avatar === found.avatar
     );
   }
   return found;
