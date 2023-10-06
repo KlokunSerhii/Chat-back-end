@@ -136,10 +136,10 @@ const updateUserData = async (req, res) =>{
   }
   const { email, password, name } = req.body;
 
-  await User.findByIdAndUpdate(user._id, { email, password, name });
+  await User.findByIdAndUpdate(_id, { email, password, name });
+
   res.json({
     email, 
-    password, 
     name,
     avatarURL
   });
