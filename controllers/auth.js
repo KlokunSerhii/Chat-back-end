@@ -135,17 +135,13 @@ const updateUserData = async (req, res) =>{
     throw HttpError(401);
   }
   const { email, password, name } = req.body;
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    throw HttpError(401, 'Email or password invalid');
-  }
 
   await User.findByIdAndUpdate(user._id, { email, password, name });
   res.json({
     email, 
     password, 
-    name
+    name,
+    avatarURL
   });
 }
 
