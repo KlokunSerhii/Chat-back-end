@@ -32,13 +32,14 @@ const register = async (req, res) => {
   const payload = {
     id: newUser._id,
   };
-
+  console.log(newUser);
   const token = jwt.sign(payload, SECRET_KEY, {
     expiresIn: '24h',
   });
   await User.findByIdAndUpdate(newUser._id, { token });
   res.status(201).json({
     user: {
+      _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
       avatarURL: newUser.avatarURL,
@@ -62,7 +63,6 @@ const login = async (req, res) => {
   const payload = {
     id: user._id,
   };
-  console.log(user);
 
   const token = jwt.sign(payload, SECRET_KEY, {
     expiresIn: '24h',
@@ -131,11 +131,11 @@ const updateUserData = async (req, res) => {
   }
   const hashPassword = await bcrypt.hash(password, 10);
 
-  await User.findByIdAndUpdate(_id, { 
-    email, 
-    password: hashPassword, 
-    name, 
-    avatarURL 
+  await User.findByIdAndUpdate(_id, {
+    email,
+    password: hashPassword,
+    name,
+    avatarURL,
   });
 
   res.json({

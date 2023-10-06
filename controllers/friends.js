@@ -1,9 +1,9 @@
 const { HttpError, ctrlWrapper } = require('../helpers');
-const { Friedns } = require('../models/friend');
+const { Friend } = require('../models/friend');
 
 const getAllFriends = async (req, res) => {
   const { _id: owner } = req.user;
-  const result = await Friedns.find({ owner }, '-createdAt -updatedAt');
+  const result = await Friend.find({ owner }, '-createdAt -updatedAt');
   if (!result) {
     throw HttpError(404);
   }
@@ -12,15 +12,17 @@ const getAllFriends = async (req, res) => {
 
 const addFriend = async (req, res) => {
   const { _id: owner } = req.user;
-  const { name, avatarURL } = req.body;
-  const result = await Friedns.create({
-    name,
-    avatarURL,
+  console.log(req.user);
+
+  const result = await Friend.create({
+    ...req.body,
     owner,
   });
+
   if (!result) {
     throw HttpError(404);
   }
+
   res.status(201).json(result);
 };
 

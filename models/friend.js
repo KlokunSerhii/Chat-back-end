@@ -1,20 +1,23 @@
 const { Schema, model } = require('mongoose');
 const { handleMongooseError } = require('../helpers');
 
-const friendSchema = new Schema(
-  {
-    name: String,
-    avatarURL: String,
-    owner: {
-      type: String,
-    },
+const friendSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  { versionKey: false, timestamps: true }
-);
-
+  avatarURL: {
+    type: String,
+    required: true,
+  },
+  owner: {
+    type: String,
+    required: true,
+  },
+});
 
 friendSchema.post('save', handleMongooseError);
 
-const Friedns = model('friend', friendSchema);
+const Friend = model('friend', friendSchema);
 
-module.exports = { Friedns };
+module.exports = { Friend };

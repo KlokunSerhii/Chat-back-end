@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate } = require('../../middelwares');
+const { authenticate } = require('../../middlewares');
 const ctrl = require('../../controllers/message');
 
 router.get('/:id', authenticate, ctrl.getAllMessage);

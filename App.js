@@ -7,13 +7,13 @@ const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
 const messageRouter = require('./routes/api/message');
-const friendsRouter = require('./routes/api/friends')
+const friendsRouter = require('./routes/api/friends');
 
 const { addUser, findUser, getRoomsUsers, removeUser } = require('./users');
 
 const io = useSocket(server, {
   cors: {
-    origin: '*'
+    origin: '*',
   },
 });
 

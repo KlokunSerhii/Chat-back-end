@@ -8,6 +8,10 @@ const validEmail =
 
 const userSchema = new Schema(
   {
+    owner: {
+      type: String,
+      required: [true, 'Set name for user'],
+    },
     name: {
       type: String,
       required: [true, 'Set name for user'],
@@ -33,15 +37,11 @@ userSchema.post('save', handleMongooseError);
 const registerSchema = Joi.object({
   password: Joi.string().min(2).max(15).required(),
   name: Joi.string().min(2).max(15).required(),
-  email: Joi.string()
-    .pattern(new RegExp(validEmail))
-    .required(),
+  email: Joi.string().pattern(new RegExp(validEmail)).required(),
 });
 const loginSchema = Joi.object({
   password: Joi.string().min(2).max(15).required(),
-  email: Joi.string()
-    .pattern(new RegExp(validEmail))
-    .required(),
+  email: Joi.string().pattern(new RegExp(validEmail)).required(),
 });
 
 const schemas = { registerSchema, loginSchema };
