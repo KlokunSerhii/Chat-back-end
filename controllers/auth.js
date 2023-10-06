@@ -134,9 +134,9 @@ const updateUserData = async (req, res) =>{
   if (!_id) {
     throw HttpError(401);
   }
-  const { email, password, name } = req.body;
+  const { email, password, name, avatarURL } = req.body;
 
-  await User.findByIdAndUpdate(_id, { email, password, name });
+  await User.findByIdAndUpdate(_id, { email, password, name, avatarURL });
 
   res.json({
     email, 
