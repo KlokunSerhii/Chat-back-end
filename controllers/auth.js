@@ -86,12 +86,13 @@ const logout = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name, avatarURL } = req.user;
+  const { email, name, avatarURL, _id } = req.user;
   if (!email) {
     throw HttpError(401);
   }
   res.json({
     user: {
+      _id,
       name,
       email,
       avatarURL,
