@@ -137,7 +137,7 @@ const updateUserData = async (req, res) => {
     email,
     name,
     avatarURL,
-    // password
+    password
   });
 };
 
