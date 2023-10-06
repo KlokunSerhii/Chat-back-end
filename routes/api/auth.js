@@ -11,6 +11,8 @@ router.post('/logout', authenticate, ctrl.logout);
 
 router.get('/current', authenticate, ctrl.getCurrent);
 
+router.patch('/current', authenticate, ctrl.updateUserData);
+
 router.patch(
   '/avatars',
   authenticate,

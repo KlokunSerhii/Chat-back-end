@@ -129,10 +129,31 @@ const updateAvatar = async (req, res) => {
   });
 };
 
+const updateUserData = async (req, res) =>{
+  const { _id } = req.user;
+  if (!_id) {
+    throw HttpError(401);
+  }
+  const { email, password, name } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw HttpError(401, 'Email or password invalid');
+  }
+
+  await User.findByIdAndUpdate(user._id, { email, password, name });
+  res.json({
+    email, 
+    password, 
+    name
+  });
+}
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   getCurrent: ctrlWrapper(getCurrent),
   updateAvatar: ctrlWrapper(updateAvatar),
+  updateUserData: ctrlWrapper(updateUserData)
 };
