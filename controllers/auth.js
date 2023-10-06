@@ -125,17 +125,19 @@ const updateAvatar = async (req, res) => {
 
 const updateUserData = async (req, res) => {
   const { _id } = req.user;
-  const { email, name, avatarURL } = req.body;
+  const { email, password, name, avatarURL } = req.body;
   if (!_id) {
     throw HttpError(401);
 
   }
-  await User.findByIdAndUpdate(_id, { email , name, avatarURL });
+  const hashPassword = await bcrypt.hash(password, 10);
+  await User.findByIdAndUpdate(_id, { email, password: hashPassword , name, avatarURL });
 
   res.json({
     email,
     name,
     avatarURL,
+    password: hashPassword
   });
 };
 
