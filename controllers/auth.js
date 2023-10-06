@@ -125,32 +125,17 @@ const updateAvatar = async (req, res) => {
 
 const updateUserData = async (req, res) => {
   const { _id } = req.user;
-  const { email, password, name, avatarURL } = req.body;
+  const { email, name, avatarURL } = req.body;
   if (!_id) {
     throw HttpError(401);
 
   }
-  // const user = await User.findOne({ email });
-  // if (!user) {
-  //   throw HttpError(401, 'Email or password invalid');
-  // }
-
-  // const passwordCompare = await bcrypt.compare(password, user.password);
-
-  // if (!passwordCompare) {
-  //   throw HttpError(401, 'Email or password invalid');
-  // }
-
-  const hashPassword = await bcrypt.hash(password, 10);
-  
-
-  await User.findByIdAndUpdate(_id, { email, password: hashPassword , name, avatarURL });
+  await User.findByIdAndUpdate(_id, { email , name, avatarURL });
 
   res.json({
     email,
     name,
     avatarURL,
-    password: hashPassword
   });
 };
 
