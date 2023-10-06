@@ -113,16 +113,12 @@ const updateAvatar = async (req, res) => {
     overwrite: true,
   };
 
-  try {
+
     const result = await cloudinary.uploader.upload(tempDir, options);
     const avatarURL = result.secure_url;
-
+    
     await User.findByIdAndUpdate(_id, { avatarURL });
 
-    return avatarURL;
-  } catch (error) {
-    console.error(error);
-  }
 
   res.json({
     avatarURL,
