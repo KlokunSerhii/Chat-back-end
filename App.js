@@ -7,6 +7,7 @@ const server = require('http').Server(app);
 
 const authRouter = require('./routes/api/auth');
 const messageRouter = require('./routes/api/message');
+const friendsRouter = require('./routes/api/friends')
 
 const { addUser, findUser, getRoomsUsers, removeUser } = require('./users');
 
@@ -24,6 +25,7 @@ app.use(cors());
 
 app.use('/chat/users', authRouter);
 app.use('/chat/messages', messageRouter);
+app.use('/chat/friends', friendsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
