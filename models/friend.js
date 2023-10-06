@@ -3,10 +3,7 @@ const { handleMongooseError } = require('../helpers');
 
 const friendSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
+    name: String,
     avatarURL: String,
     owner: {
       type: String,
