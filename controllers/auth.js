@@ -129,11 +129,11 @@ const updateUserData = async (req, res) => {
   if (!_id) {
     throw HttpError(401);
   }
-  // const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, 10);
+
   await User.findByIdAndUpdate(_id, { 
     email, 
-    // password: hashPassword, 
-    password,
+    password: hashPassword, 
     name, 
     avatarURL 
   });
