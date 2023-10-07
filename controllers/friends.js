@@ -25,8 +25,19 @@ const addFriend = async (req, res) => {
 
   res.status(201).json(result);
 };
+const deleteFriends = async (req, res) => {
+  const { id } = req.params;
+  const { _id: owner } = req.user;
+
+  const result = await Friend.findOneAndRemove({ _id: id, owner });
+  if (!result) {
+    throw HttpError(404);
+  }
+  res.status(200).json(result);
+};
 
 module.exports = {
   getAllFriends: ctrlWrapper(getAllFriends),
   addFriend: ctrlWrapper(addFriend),
+  deleteFriends: ctrlWrapper(deleteFriends),
 };
