@@ -8,10 +8,6 @@ const validEmail =
 
 const userSchema = new Schema(
   {
-    owner: {
-      type: String,
-      required: [true, 'Set name for user'],
-    },
     name: {
       type: String,
       required: [true, 'Set name for user'],
